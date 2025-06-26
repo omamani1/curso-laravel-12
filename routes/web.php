@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/saludo', [PruebaController::class, 'saludo']);
+
 Route::get('/tareas1', [PruebaController::class, 'index'])->middleware('AuthToken');
 
 Route::get('/mi', [PruebaController::class, 'miMetodo']);

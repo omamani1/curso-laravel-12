@@ -89,4 +89,27 @@ class Test1 extends Controller
         // $user3 = User::find(3);
         // dump($user3); 
     }
+
+    public static function orm1()
+    {
+        DB::enableQueryLog();
+
+        $user = User::get();
+        $tasks = Task::get();
+
+        $q = DB::getQueryLog();
+        $total = count($q);
+
+        Log::info('sql --- ', [
+            'total' => $total,
+            'consultas' => $q
+        ]);
+    }
+    public static function getTaskActive()
+    {
+        $task = Task::active()->get();
+        Log::info('task active', [
+            'data' => $task
+        ]);
+    }
 }

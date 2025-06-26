@@ -16,25 +16,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(3)->create();
+        // $user = User::factory(1)->create();
         // Role::factory(2)->create();
         // Role::factory()->admin()->create();
-        // $user = User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
+        \Log::info('infor ', [
+            'user' => $user
+        ]);
 
-        // $task = new Task();
-        // $task->title = 'Sample Task';
-        // $task->description = 'This is a sample task description.';
-        // $task->user_id = $user->id;
-        // $task->save();
+        $task = new Task();
+        $task->title = 'Sample Task';
+        $task->description = 'This is a sample task description.';
+        $task->user_id = $user->id;
+        $task->save();
 
-        // $task1 = new Task();
-        // $task1->title = 'Sample Task1';
-        // $task1->description = 'This is a sample task1 description.';
-        // $task1->user_id = $user->id;
-        // $task1->save();
+        $task1 = new Task();
+        $task1->title = 'Sample Task1';
+        $task1->description = 'This is a sample task1 description.';
+        $task1->user_id = $user->id;
+        $task1->save();
 
         // $tagList = ['urgent', 'important', 'work', 'personal'];
         // foreach ($tagList as $tagName) {

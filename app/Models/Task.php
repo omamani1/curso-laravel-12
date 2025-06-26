@@ -16,4 +16,10 @@ class Task extends Model
     {
         return $this->belongsToMany(Tag::class, 'tag_task', 'task_id', 'tag_id');
     }
+
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

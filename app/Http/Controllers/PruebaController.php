@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prueba;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -82,5 +83,15 @@ class PruebaController extends Controller
     public function updatePrueba(Request $request, string $id)
     {
         return "Recurso con ID {$id} actualizado.";
+    }
+
+
+    public function saludo()
+    {
+        $users = User::with('tasks')->get();
+        Log::info('info', [
+            'data' => $users
+        ]);
+        return view('index', compact('users'));
     }
 }
