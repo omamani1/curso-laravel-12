@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prueba;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -92,6 +93,7 @@ class PruebaController extends Controller
         Log::info('info', [
             'data' => $users
         ]);
-        return view('index', compact('users'));
+        $tasks = Task::with('tags')->get();
+        return view('index', compact('tasks'));
     }
 }
