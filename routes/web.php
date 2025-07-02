@@ -1,48 +1,20 @@
 <?php
 
-use App\Http\Controllers\PruebaController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\Test1;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/tasks', [TaskController::class, 'index']);
-Route::get('/tasks/create', [TaskController::class, 'create']);
-Route::post('/tasks', [TaskController::class, 'store']);
-Route::get('/tasks/{id}', [TaskController::class, 'show']);
-Route::get('/tasks/{task}/edit', [TaskController::class, 'edit']);
-Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('task.update');
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('task.destroy');
-
-
-
-Route::get('/saludo', [PruebaController::class, 'saludo']);
-
-Route::get('/tareas1', [PruebaController::class, 'index'])->middleware('AuthToken');
-
-Route::get('/mi', [PruebaController::class, 'miMetodo']);
-
-Route::prefix('admin')->group(function () {
-    Route::get('/tareas', [PruebaController::class, 'index'])->name('lista_tareas2');
-    Route::get('/miMetodo', [PruebaController::class, 'miMetodo'])->name('lista_tareas3');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('/invoke', Test1::class)->name('lista_tareas2');
-Route::get('/nombre/{name}', function (Request $request, $name) {
-    Log::info("nombre : " . $name);
-    return view('welcome', ['name' => $name]);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/prueba', function (Request $request) {
-    $name = $request->name;
-    $email = $request->email;
-    return "Prueba de ruta " . $name .  " Email : " . $email;
-});
-
-Route::post('/prueba', function (Request $request) {
-    $name = $request->name;
-    $email = $request->email;
-    return "Prueba de ruta " . $name .  " Email : " . $email;
-});
-Route::view('/home', 'welcome');
+require __DIR__.'/auth.php';
