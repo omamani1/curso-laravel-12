@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>@yield('titulo', 'Titulo por defecto')</title>
+    <title>Gestión de Tareas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    @yield('content')
+<body class="bg-gray-100 min-h-screen">
+    @include('partials.navbar')
+    <div class="max-w-6xl mx-auto p-6">
+        @yield('content')
+    </div>
 </body>
-
-{{--
-../partial/footer.
---}}
-@include('partials.footer')
 
 </html>

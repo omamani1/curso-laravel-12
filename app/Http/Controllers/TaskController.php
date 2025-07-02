@@ -3,84 +3,80 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $userId = 3;
-        $tasks = Task::with('tags')->where("user_id", $userId)->get();
-        return view("task.index", compact("tasks"));
+        $user = Auth::user();
+        Log::info($user);
+        $tasks = Task::with('tags')->where('user_id', $user->id)->get();
+        // $tasks = Task::with('tags')->paginate(10);
+        return view('tasks.index', compact('tasks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view("task.create");
+        $tags = Tag::all();
+        return view('tasks.create', compact('tags'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $titulo = $request->title;
-        $description = $request->description;
-        $status = !!$request->status;
-
-        Task::create([
-            'user_id' => 3,
-            'title' => $titulo,
-            'description' => $description,
-            'status' => $status
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'boolean',
+            'tags' => 'array',
         ]);
-        return response()->redirectTo('/tasks')->with('success', 'Se registro correctamente');
+
+        $user = $request->user();
+        $task = new Task();
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->status = $request->status ?? false;
+        $task->user_id = $user->id;
+        $task->save();
+
+        $task->tags()->sync($request->tags);
+
+        return redirect()->route('tasks.index')->with('success', 'Tarea creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $task = Task::find($id);
-        return view("task.show", ['task' => $task]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Task $task)
     {
-        return view('task.edit', ['task' => $task]);
+        $user = Auth::user();
+        $tags = Tag::where('user_id', $user->id);
+        return view('tasks.edit', compact('task', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Task $task)
     {
-        $task = Task::find($id);
-        $task->title  = $request->title;
-        $task->description  = $request->description;
-        $task->status = !!$request->status;
-        $task->save();
-        return response()->redirectTo('/tasks')->with('success', 'Se actualizo');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'boolean',
+            'tags' => 'array',
+        ]);
+
+        $task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status ?? false,
+        ]);
+
+        $task->tags()->sync($request->tags);
+
+        return redirect()->route('tasks.index')->with('success', 'Tarea actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
         $task->delete();
-        return response()->redirectTo('/tasks')->with('success', 'Se elimino');
+        return redirect()->route('tasks.index')->with('success', 'Tarea eliminada correctamente.');
     }
 }
