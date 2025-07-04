@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <h1 class="text-xl font-semibold mb-4">Crear Nueva Tarea</h1>
-        <form method="POST" action="{{ route('tasks.store') }}">
+        <form method="POST" action="{{ route('tasks.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -31,6 +31,14 @@
                 @enderror
             </div>
 
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Título</label>
+                <input type="file" name="imagen" class="w-full border rounded p-2" accept="image/*"
+                    value="{{ old('imagen') }}">
+                @error('imagen')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
             <div class="mb-4">
                 <label class="block mb-1 font-medium">Etiquetas</label>
                 @foreach($tags as $tag)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TaskExport;
+use App\Mail\TaskCreatedEmial;
 use App\Models\Task;
 use App\Models\Tag;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TaskController extends Controller
@@ -34,19 +36,29 @@ class TaskController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => ['nullable', 'string'],
             'status' => 'boolean',
             'tags' => 'array',
+            'imagen' => 'image'
         ]);
 
+        $image = $request->file('imagen');
+        // $url = time() . '.' . $image->getClientOriginalExtension();
+        // $image->move(public_path('imagenes'), $url);
+
+        $url = $image->store('imagenes', 'public');
+
+        Log::info($url);
         $user = $request->user();
         $task = new Task();
         $task->title = $request->title;
         $task->description = $request->description;
         $task->status = $request->status ?? false;
         $task->user_id = $user->id;
+        $task->imagen = $url;
         $task->save();
 
+        Mail::to('mmmm@gamil.com')->queue(new TaskCreatedEmial($task));
         $task->tags()->sync($request->tags);
 
         return redirect()->route('tasks.index')->with('success', 'Tarea creada correctamente.');

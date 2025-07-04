@@ -37,6 +37,14 @@
                         <td class="p-2">{{ $task->description }}</td>
                         <td class="p-2">{{ $task->status ? '✅' : '⏳' }}</td>
                         <td class="p-2">
+                            {{-- @if ($task->imagen)
+                            <img src="{{asset('imagenes/' . $task->imagen)}}" width="50px" />
+                            @endif --}}
+                            @if ($task->imagen)
+                                <img src="{{Storage::url($task->imagen)}}" width="50px" />
+                            @endif
+                        </td>
+                        <td class="p-2">
                             @foreach($task->tags as $tag)
                                 <span
                                     class="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm mr-1">{{ $tag->name }}</span>
