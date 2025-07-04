@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
     public function index()
     {
-        $tags = Tag::all();
+        $user = Auth::user();
+        $tags = Tag::where('user_id', $user->id)->get();
         return view('tags.index', compact('tags'));
     }
 
@@ -24,8 +25,8 @@ class TagController extends Controller
         $request->validate([
             'name' => 'required|unique:tags,name',
         ], [
-            'name.required'=>'La etiquieta es requerido', 
-            'name.unique'=>'Tiene que ser unico'
+            'name.required' => 'La etiquieta es requerido',
+            'name.unique' => 'Tiene que ser unico'
         ]);
 
         Tag::create($request->all());

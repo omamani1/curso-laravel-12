@@ -1,6 +1,8 @@
-@extends('layouts.main')
+{{-- @extends('layouts.main')
 
-@section('content')
+@section('content') --}}
+
+<x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <h1 class="text-xl font-semibold mb-4">Crear Etiqueta</h1>
         <form method="POST" action="{{ route('tags.store') }}">
@@ -18,4 +20,4 @@
             <a href="{{ route('tags.index') }}" class="ml-2 text-gray-600 hover:underline">Cancelar</a>
         </form>
     </div>
-@endsection
+</x-app-layout>

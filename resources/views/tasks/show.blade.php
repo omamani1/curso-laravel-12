@@ -1,6 +1,4 @@
-@extends('layouts.main')
-
-@section('content')
+<x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <h1 class="text-2xl font-bold mb-4">Ver Tarea</h1>
 
@@ -13,6 +11,7 @@
             @endforeach
         </p>
 
-        <a href="{{ route('tasks.index') }}" class="mt-4 inline-block text-blue-600 hover:underline">Volver a la lista</a>
+        <a href="{{ route('tasks.index') }}" class="mt-4 inline-block text-blue-600 hover:underline">Volver a la
+            lista</a>
     </div>
-@endsection
+</x-app-layout>

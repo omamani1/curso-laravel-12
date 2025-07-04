@@ -1,10 +1,9 @@
-@extends('layouts.main')
-
-@section('content')
+<x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Lista de Etiquetas</h1>
-            <a href="{{ route('tags.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+ Nueva
+            <a href="{{ route('tags.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+
+                Nueva
                 Etiqueta</a>
         </div>
 
@@ -42,4 +41,4 @@
             {{ $tags->links('pagination::tailwind') }}
         </div> --}}
     </div>
-@endsection
+</x-app-layout>

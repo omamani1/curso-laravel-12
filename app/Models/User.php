@@ -58,11 +58,21 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     // $user->name_and_email
     protected function nameAndEmail(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->name . ' (' . $this->email . ')',
         );
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name == 'Admin';
     }
 }

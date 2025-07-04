@@ -1,7 +1,3 @@
-{{-- @extends('layouts.app')
-
-
-@section('content') --}}
 <x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <div class="flex justify-between items-center mb-4">
@@ -9,6 +5,13 @@
             <a href="{{ route('tasks.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+
                 Nueva
                 Tarea</a>
+            <a href="{{ route('export-task-pdf') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Descargar PDF
+            </a>
+            <a href="{{ route('export-task-excel') }}"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Descargar Excel
+            </a>
         </div>
 
         @if(session('success'))

@@ -1,6 +1,7 @@
-@extends('layouts.main')
+{{-- @extends('layouts.main')
 
-@section('content')
+@section('content') --}}
+<x-app-layout>
     <div class="bg-white p-6 rounded-xl shadow-md">
         <h1 class="text-xl font-semibold mb-4">Editar Tarea</h1>
         <form method="POST" action="{{ route('tasks.update', $task) }}">
@@ -52,4 +53,4 @@
             <a href="{{ route('tasks.index') }}" class="ml-2 text-gray-600 hover:underline">Cancelar</a>
         </form>
     </div>
-@endsection
+</x-app-layout>

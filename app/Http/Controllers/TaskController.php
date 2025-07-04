@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TaskExport;
 use App\Models\Task;
 use App\Models\Tag;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TaskController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        Log::info($user);
+        // Log::info($user->isAdmin() ? 'Admin' : 'Normal');
+        // Gate::authorize('is-admin');
         $tasks = Task::with('tags')->where('user_id', $user->id)->get();
         // $tasks = Task::with('tags')->paginate(10);
         return view('tasks.index', compact('tasks'));
@@ -78,5 +83,20 @@ class TaskController extends Controller
     {
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Tarea eliminada correctamente.');
+    }
+
+
+    public function exportarPDF()
+    {
+        $user = Auth::user();
+        $tasks = Task::with('tags')->where('user_id', $user->id)->get();
+        $pdf  = Pdf::loadView('reportes.pdf', compact('tasks'));
+        return $pdf->download('reporte-tasks.pdf');
+    }
+
+    public function exportarExcel()
+    {
+        // $user = Auth::user();
+        return  Excel::download(new TaskExport(), 'reportes-excel.xlsx');
     }
 }

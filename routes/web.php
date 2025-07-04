@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('tasks', TaskController::class);
+    Route::get('tasks/export/pdf', [TaskController::class, 'exportarPDF'])->name('export-task-pdf');
+    Route::get('tasks/export/xls', [TaskController::class, 'exportarExcel'])->name('export-task-excel');
     Route::resource('tags', TagController::class)->except(['show']);
 });
 
