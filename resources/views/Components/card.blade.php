@@ -4,6 +4,8 @@
         <main>
             {{ $slot }}
         </main>
-        <p>{{ $descripcion }}</p>
+        <div>
+            <p>{{ $descripcion }}</p>
+        </div>
     </div>
 </div>
