@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        \Log::info('infor ', [
-            'user' => $user
-        ]);
+        // \Log::info('infor ', [
+        //     'user' => $user
+        // ]);
 
         $task = new Task();
         $task->title = 'Sample Task';

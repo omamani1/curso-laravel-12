@@ -63,8 +63,8 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- <div class="mt-6">
+        <div class="mt-6">
             {{ $tasks->links('pagination::tailwind') }}
-        </div> --}}
+        </div>
     </div>
 </x-app-layout>

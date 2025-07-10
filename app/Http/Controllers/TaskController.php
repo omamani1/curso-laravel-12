@@ -16,13 +16,14 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->per_page ?? 3;
         $user = Auth::user();
         // Log::info($user->isAdmin() ? 'Admin' : 'Normal');
         // Gate::authorize('is-admin');
-        $tasks = Task::with('tags')->where('user_id', $user->id)->get();
-        // $tasks = Task::with('tags')->paginate(10);
+        // $tasks = Task::with('tags')->where('user_id', $user->id)->get();
+        $tasks = Task::with('tags')->where('user_id', $user->id)->paginate($perPage);
         return view('tasks.index', compact('tasks'));
     }
 
