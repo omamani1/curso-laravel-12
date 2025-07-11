@@ -59,7 +59,7 @@ class TaskController extends Controller
         $task->imagen = $url;
         $task->save();
 
-        Mail::to('mmmm@gamil.com')->queue(new TaskCreatedEmial($task));
+        Mail::to('mmmm@gamil.com')->send(new TaskCreatedEmial($task));
         $task->tags()->sync($request->tags);
 
         return redirect()->route('tasks.index')->with('success', 'Tarea creada correctamente.');
