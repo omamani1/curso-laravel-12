@@ -60,6 +60,7 @@ class TaskController extends Controller
         $task->save();
 
         Mail::to('mmmm@gamil.com')->queue(new TaskCreatedEmial($task));
+        
         $task->tags()->sync($request->tags);
 
         return redirect()->route('tasks.index')->with('success', 'Tarea creada correctamente.');
